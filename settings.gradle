@@ -1,0 +1,2 @@
+rootProject.name = 'ZmeetSDK'
+include ':app'

@@ -1,0 +1,64 @@
+apply plugin: "com.android.application"
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        applicationId "com.zmeetsdk"
+        minSdkVersion 24
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+        versionName "1.0"
+        versionCode 1
+    }
+
+    signingConfigs {
+        tSignConfig {
+            storeFile file("key/abcpen-sdk.jks")
+            storePassword 'abcpen'
+            keyAlias 'abcpen-sdk'
+            keyPassword 'abcpen'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.tSignConfig
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.tSignConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    api 'com.abcpen.zmeet:sdk:0.0.16'
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation 'com.blankj:utilcodex:1.29.0'
+    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0"
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'circletextimage.viviant.com.circletextimagelib:circletextimagelib:1.2.0'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
+
+}
+
